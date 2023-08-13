@@ -20,14 +20,16 @@ public interface ShipperRepository {
     List<Shipper> getShippers(Map<String, String> params);
 
     Shipper getShipperById(int id);
-    
+
     public boolean addOrUpdateShipper(Shipper sp);
 
     Shipper updateShipper(int id, Shipper sp1);
-    
+
     Shipper createShipper(Shipper sp);
-    
+
     void deleteShipper(int id);
-    
+
+    void recycleBin(int id);
+
     Long countShipper();
 }

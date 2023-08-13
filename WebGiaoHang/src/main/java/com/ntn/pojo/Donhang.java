@@ -4,6 +4,7 @@
  */
 package com.ntn.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -22,10 +23,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -90,15 +93,22 @@ public class Donhang implements Serializable {
     private String image;
     @JoinColumn(name = "id_khuyenmai", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Khuyenmai idKhuyenmai;
     @JoinColumn(name = "id_shipper", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Shipper idShipper;
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User idUser;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDonhang")
     private Set<Daugia> daugiaSet;
+
+    @Transient
+    @JsonIgnore
+    private MultipartFile file;
 
     public Donhang() {
     }
@@ -246,5 +256,19 @@ public class Donhang implements Serializable {
     public String toString() {
         return "com.ntn.pojo.Donhang[ id=" + id + " ]";
     }
-    
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
 }

@@ -16,6 +16,8 @@ public interface KhuyenMaiService {
 
     List<Khuyenmai> getKhuyenMais(Map<String, String> params);
 
+    List<Khuyenmai> getKhuyenMaisExpires(Map<String, String> params);
+
     Khuyenmai getKhuyenMaiById(int id);
 
     boolean addOrUpdateKhuyenMai(Khuyenmai km);
@@ -25,6 +27,8 @@ public interface KhuyenMaiService {
     Khuyenmai updateKhuyenMai(int id, Khuyenmai km);
 
     void deleteKhuyenMai(int id);
+
+    void recycleBin(int id);
 
     Long countPromotion();
 

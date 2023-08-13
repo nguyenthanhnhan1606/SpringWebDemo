@@ -42,10 +42,13 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/listUser.jsp" />
     </definition>
+     <definition name="listUserRegisterShipper" template="/WEB-INF/pages/listUserRegisterShipper.jsp">
+                      
+    </definition>
     <definition name="addOrUpdateShipper" extends="baseLayout">
         <put-attribute name="title" value="Thêm khuyến mãi" />
         <put-attribute name="content"
-                       value="/WEB-INF/pages/addOrUpdateShipper.jsp" />
+                       value="/WEB-INF/pages/addUpdateShipper.jsp" />
     </definition>
     
     <definition name="addShipper" extends="baseLayout">

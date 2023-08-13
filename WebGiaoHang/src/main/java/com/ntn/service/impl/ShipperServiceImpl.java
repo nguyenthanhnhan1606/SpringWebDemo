@@ -27,23 +27,23 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ShipperServiceImpl implements ShipperService {
-
+    
     @Autowired
     private ShipperRepository shipperRepo;
-
+    
     @Autowired
     private Cloudinary cloudinary;
-
+    
     @Autowired
     private UserRepository userRepo;
-
+    
     public ShipperDto toDto(Shipper sp) {
         ShipperDto spd = new ShipperDto();
         spd.setId(sp.getId());
         spd.setTrangthai(sp.getTrangthai());
         return spd;
     }
-
+    
     public List<ShipperDto> toDsDto(List<Shipper> list) {
         List<ShipperDto> listDto = new ArrayList<>();
         for (Shipper s : list) {
@@ -51,24 +51,24 @@ public class ShipperServiceImpl implements ShipperService {
         }
         return listDto;
     }
-
+    
     public Shipper toEntity(ShipperDto sp) {
         Shipper spd = new Shipper();
         spd.setId(sp.getId());
         spd.setTrangthai(sp.getTrangthai());
         return spd;
     }
-
+    
     @Override
     public List<Shipper> getShippers(Map<String, String> params) {
         return this.shipperRepo.getShippers(params);
     }
-
+    
     @Override
     public Shipper getShipperById(int id) {
         return this.shipperRepo.getShipperById(id);
     }
-
+    
     @Override
     public boolean addOrUpdateShipper(Shipper sp) {
         if (!sp.getUser().getFile().isEmpty()) {
@@ -82,45 +82,60 @@ public class ShipperServiceImpl implements ShipperService {
         }
         return this.shipperRepo.addOrUpdateShipper(sp);
     }
-
+    
     @Override
     public Shipper createShipperNew(Shipper sp) {
         return this.shipperRepo.createShipper(sp);
     }
-
+    
     @Override
     public ShipperDto updateShipper(int id, ShipperDto sp1) {
         Shipper sp = toEntity(sp1);
         return toDto(this.shipperRepo.updateShipper(id, sp));
     }
-
+    
     @Override
     public void deleteShipper(int id) {
         this.shipperRepo.deleteShipper(id);
     }
-
+    
     @Override
     public Long countShipper() {
         return this.shipperRepo.countShipper();
     }
-
-    @Override
+    
     public boolean createShipper(User u) {
         try {
-            Shipper sp = new Shipper();
-            u.setUserRole("ROLE_SHIPPER");
-            sp.setId(u.getId());
-            sp.setTrangthai("Đã xác nhận");
-            sp.setUser(u);
-            if (this.shipperRepo.createShipper(sp) != null) {
-                if (addOrUpdateShipper(sp)) {
+            Shipper sp1 = shipperRepo.getShipperById(u.getId());
+            if (sp1 == null) {
+                Shipper sp = new Shipper();
+                u.setUserRole("ROLE_SHIPPER");
+                sp.setId(u.getId());
+                sp.setTrangthai("Đã xác nhận");
+                sp.setUser(u);
+                if (shipperRepo.createShipper(sp) != null) {
+                    if (addOrUpdateShipper(sp)) {
+                        return true;
+                    }
+                }
+            } else {
+                u.setUserRole("ROLE_SHIPPER");
+                sp1.setTrangthai("Đã xác nhận");
+                sp1.setUser(u);
+                if (addOrUpdateShipper(sp1)) {
                     return true;
                 }
             }
         } catch (Exception ex) {
-            return false;
+            Logger.getLogger(KhuyenMaiServiceImpl.class.getName()).log(Level.SEVERE, "Lỗi khi tải lên file: " + ex.getMessage(), ex);
+            throw new RuntimeException("Đã xảy ra lỗi khi tải lên file. Vui lòng thử lại hoặc liên hệ hỗ trợ." + ex.getMessage());
         }
         return false;
     }
-
+    
+    @Override
+    public void recycleBin(int id) {
+        this.shipperRepo.recycleBin(id);
+    }
+    
 }

@@ -54,4 +54,10 @@ public class KhuyenMaiApiController {
     public void deleteKhuyenMai(@PathVariable int id){
         this.khuyenMaiSer.deleteKhuyenMai(id);
     }
+    
+    @PutMapping("/api/khuyenmais/recycle/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void recycleKhuyenMai(@PathVariable int id){
+        this.khuyenMaiSer.recycleBin(id);
+    }
 }

@@ -47,7 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUsersByUsername(String username) {
-        return this.userRepo.getUsersByUsername(username);
+        if(username!=null)
+            return this.userRepo.getUsersByUsername(username);
+        return null;
     }
 
     @Override
@@ -58,6 +60,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUserRegistShipper(Map<String, String> params) {
         return this.userRepo.getUserRegistShipper(params);
+    }
+
+    @Override
+    public void updateRole(int id) {
+        this.userRepo.updateRole(id);
+    }
+
+    @Override
+    public void refuseShipper(int id) {
+        this.userRepo.refuseShipper(id);
     }
 
 }

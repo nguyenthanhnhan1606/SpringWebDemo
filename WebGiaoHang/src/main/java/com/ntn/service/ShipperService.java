@@ -25,10 +25,12 @@ public interface ShipperService {
     ShipperDto updateShipper(int id, ShipperDto sp1);
 
     Shipper createShipperNew(Shipper sp);
-    
+
     boolean createShipper(User u);
 
     void deleteShipper(int id);
+
+    void recycleBin(int id);
 
     Long countShipper();
 }

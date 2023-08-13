@@ -17,6 +17,10 @@ public interface UserRepository {
     List<User> getUsers(Map<String, String> params);
 
     List<User> getUserRegistShipper(Map<String, String> params);
+    
+    void updateRole(int id);
+    
+    void refuseShipper(int id);
 
     User getUsersByUsername(String username);
 

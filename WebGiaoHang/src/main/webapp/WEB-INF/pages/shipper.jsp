@@ -30,9 +30,9 @@
                 <td class="text-center">${s.user.email}</td>
                 <td class="text-center">${s.user.sdt}</td>
                 <td>
-                    <c:url value="/api/shippers/delete/${s.id}" var="apiDel" />
+                    <c:url value="/api/shippers/recyclebin/${s.id}" var="apiDel" />
                     <a href="<c:url value="/admin/addOrUpdateShipper/${s.user.id}"/>" class="btn btn-success">Cập nhật</a>
-                    <button class="btn btn-danger" onclick="delPro('${apiDel}', ${s.id})">Xóa</button>
+                    <button class="btn btn-danger" onclick="recycleBin('${apiDel}', ${s.id})">Xóa</button>
                 </td>
             </tr>
         </c:forEach>

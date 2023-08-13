@@ -16,6 +16,7 @@
                 <form:errors path="*" element="div" cssClass="alert alert-danger" />
                 <form:hidden path="id" />
                 <form:hidden path="image" />
+                <form:hidden path="active"/>
                 <div class="form-floating mb-3">
                     <form:input type="text" class="form-control" path="loaikhuyenmai" id="loaikhuyenmai" placeholder="Loại khuyến mãi..." />
                     <label for="loaikhuyenmai">Loại khuyến mãi</label>

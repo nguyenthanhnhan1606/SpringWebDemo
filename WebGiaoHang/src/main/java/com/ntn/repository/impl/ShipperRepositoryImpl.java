@@ -50,7 +50,6 @@ public class ShipperRepositoryImpl implements ShipperRepository {
         Join<Shipper, User> userJoin = sRoot.join("user");
         List<Predicate> predicates = new ArrayList<>();
         predicates.add(b.equal(sRoot.get("trangthai"), "Đã xác nhận"));
-       
 
         String search = params.get("search");
         if (search != null) {
@@ -79,12 +78,12 @@ public class ShipperRepositoryImpl implements ShipperRepository {
     @Override
     public boolean addOrUpdateShipper(Shipper sp) {
         Session session = this.factory.getObject().getCurrentSession();
-        User u = sp.getUser();
         try {
             if (sp.getId() == null) {
-                session.save(u);
+                session.save(sp);
             } else {
-                session.update(u);
+                session.update(sp);
+                session.update(sp.getUser());
             }
             return true;
         } catch (HibernateException ex) {
@@ -132,6 +131,21 @@ public class ShipperRepositoryImpl implements ShipperRepository {
         Query q = s.createQuery("SELECT Count(*) FROM Shipper");
 
         return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public void recycleBin(int id) {
+        try {
+            Session session = this.factory.getObject().getCurrentSession();
+            Shipper sp = session.get(Shipper.class, id);
+            sp.getUser().setUserRole("ROLE_USER");
+            sp.setTrangthai("Đã xóa");
+            session.save(sp);
+        } catch (HibernateException ex) {
+            Logger.getLogger(ShipperRepositoryImpl.class.getName()).log(Level.SEVERE, "Lỗi khi xóa shipper này!: " + ex.getMessage(), ex);
+            throw new RuntimeException("Đã xảy ra lỗi khi xóa shipper. Vui lòng thử lại hoặc liên hệ hỗ trợ." + ex.getMessage());
+        }
+
     }
 
 }

@@ -29,9 +29,9 @@
                 <td class="text-center">${p.ngaybd}</td>
                 <td class="text-center">${p.ngaykt}</td>
                 <td>
-                    <c:url value="/api/khuyenmais/delete/${p.id}" var="apiDel" />
+                    <c:url value="/api/khuyenmais/recycle/${p.id}" var="apiDel" />
                     <a href="<c:url value="/admin/addkhuyenmai/${p.id}"/>" class="btn btn-success">Cập nhật</a>
-                    <button class="btn btn-danger" onclick="delPro('${apiDel}', ${p.id})">Xóa</button>
+                    <button class="btn btn-danger" onclick="recycleBin('${apiDel}', ${p.id})">Xóa</button>
                 </td>
             </tr>
         </c:forEach>

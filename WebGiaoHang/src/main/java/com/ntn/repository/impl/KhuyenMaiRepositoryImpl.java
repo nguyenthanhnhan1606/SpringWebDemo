@@ -6,16 +6,20 @@ package com.ntn.repository.impl;
 
 import com.ntn.pojo.Khuyenmai;
 import com.ntn.repository.KhuyenMaiRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateError;
 import org.hibernate.HibernateException;
-import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -45,13 +49,56 @@ public class KhuyenMaiRepositoryImpl implements KhuyenMaiRepository {
         CriteriaQuery<Khuyenmai> q = b.createQuery(Khuyenmai.class);
         Root<Khuyenmai> root = q.from(Khuyenmai.class);
         q.select(root);
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(b.greaterThanOrEqualTo(root.get("ngaykt"), new Date()));
+        predicates.add(b.equal(root.get("active"), 1));
 
         if (params != null) {
             String search = params.get("search");
             if (search != null) {
-                q.where(b.like(root.get("loaikhuyenmai"), "%" + search + "%"));
+                predicates.add(b.like(root.get("loaikhuyenmai"), "%" + search + "%"));
             }
         }
+
+        q.where(predicates.toArray(Predicate[]::new));
+
+        Query query = session.createQuery(q);
+
+        if (params != null) {
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
+                int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+
+                query.setMaxResults(pageSize);
+                query.setFirstResult((p - 1) * pageSize);
+            }
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Khuyenmai> getKhuyenMaisExpires(Map<String, String> params) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Khuyenmai> q = b.createQuery(Khuyenmai.class);
+        Root<Khuyenmai> root = q.from(Khuyenmai.class);
+        q.select(root);
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(b.lessThanOrEqualTo(root.get("ngaykt"), new Date()));
+        predicates.add(b.equal(root.get("active"), 1));
+
+        if (params != null) {
+            String search = params.get("search");
+            if (search != null) {
+                predicates.add(b.like(root.get("loaikhuyenmai"), "%" + search + "%"));
+            }
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
 
         Query query = session.createQuery(q);
 
@@ -129,6 +176,19 @@ public class KhuyenMaiRepositoryImpl implements KhuyenMaiRepository {
         Query q = s.createQuery("SELECT Count(*) FROM Khuyenmai");
 
         return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public void recycleBin(int id) {
+        try {
+            Session session = this.factory.getObject().getCurrentSession();
+            Khuyenmai km = session.get(Khuyenmai.class, id);
+            km.setActive(false);
+            session.update(km);
+        } catch (HibernateException ex) {
+            Logger.getLogger(ShipperRepositoryImpl.class.getName()).log(Level.SEVERE, "Lỗi khi xóa khuyến mãi này: " + ex.getMessage(), ex);
+            throw new RuntimeException("Đã xảy ra lỗi khi xóa khuyến mãi. Vui lòng thử lại hoặc liên hệ hỗ trợ." + ex.getMessage());
+        }
     }
 
 }

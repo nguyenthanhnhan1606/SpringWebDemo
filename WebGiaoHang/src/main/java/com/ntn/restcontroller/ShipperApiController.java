@@ -12,6 +12,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,11 +33,13 @@ public class ShipperApiController {
     private ShipperService shipperService;
 
     @GetMapping("/api/shippers")
+    @CrossOrigin
     public ResponseEntity<List<Shipper>> getShipper(Map<String, String> params) {
         return new ResponseEntity<>(this.shipperService.getShippers(params), HttpStatus.OK);
     }
 
     @GetMapping(value = "/api/shippers/{id}",produces = "application/json")
+    @CrossOrigin
     public ResponseEntity<Shipper> getShipperById(@PathVariable int id) {
         return new ResponseEntity<>(this.shipperService.getShipperById(id), HttpStatus.OK);
     }
@@ -53,9 +56,14 @@ public class ShipperApiController {
 
     @DeleteMapping("/api/shippers/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-
     public void deleteShipper(@PathVariable int id) {
         this.shipperService.deleteShipper(id);
+    }
+    
+    @PutMapping("/api/shippers/recyclebin/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void recycleBin(@PathVariable int id) {
+        this.shipperService.recycleBin(id);
     }
 
 }

@@ -31,31 +31,31 @@ public class UserController {
     @Autowired
     private ShipperService shipperSer;
 
-
     @GetMapping("/admin/listUser")
     public String getUsers(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("userss", this.userSer.getUsers(params));
         return "listUser";
     }
-    
+
     @GetMapping("/admin/addShipper/{id}")
-    public String getUsers(Model model,@PathVariable int id) {
-        model.addAttribute("userUpdate",this.userSer.getUsersById(id));
+    public String getUsers(Model model, @PathVariable int id) {
+        model.addAttribute("userUpdate", this.userSer.getUsersById(id));
         return "addShipper";
     }
-    
+
     @PostMapping("/admin/addShipper")
     public String getUsers(@ModelAttribute(value = "userUpdate") User u) {
-        if(shipperSer.createShipper(u)){
-         return "redirect:/admin/shippers";
+        if (shipperSer.createShipper(u)) {
+            return "redirect:/admin/shippers";
         }
         return "addShipper";
     }
-    
+
     @GetMapping("/admin/listUserRegisterShipper")
     public String getUsersRegisterShipper(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("userss", this.userSer.getUserRegistShipper(params));
+        model.addAttribute("flagShipper",1);    
         return "listUser";
     }
-    
+
 }

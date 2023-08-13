@@ -77,4 +77,14 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
         return this.khuyenMaiRepo.countPromotion();
     }
 
+    @Override
+    public List<Khuyenmai> getKhuyenMaisExpires(Map<String, String> params) {
+        return this.khuyenMaiRepo.getKhuyenMaisExpires(params);
+    }
+
+    @Override
+    public void recycleBin(int id) {
+        this.khuyenMaiRepo.recycleBin(id);
+    }
+
 }

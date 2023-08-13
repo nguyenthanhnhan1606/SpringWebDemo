@@ -53,7 +53,7 @@
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href=" <c:url value="/admin/khuyenmais?page=1" />" >Quản lý khuyến mãi</a>
-                        <a class="nav-link" href="#">Khuyến mãi sắp hết hạn</a>
+                        <a class="nav-link" href="<c:url value="/admin/kmexpires?page=1" />">Khuyến mãi hết hạn</a>
                     </nav>
                 </div>
 
