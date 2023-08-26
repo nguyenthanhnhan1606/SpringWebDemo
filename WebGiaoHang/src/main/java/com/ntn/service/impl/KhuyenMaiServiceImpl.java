@@ -87,4 +87,9 @@ public class KhuyenMaiServiceImpl implements KhuyenMaiService {
         this.khuyenMaiRepo.recycleBin(id);
     }
 
+    @Override
+    public Long countPromotionExpires() {
+        return this.khuyenMaiRepo.countPromotionExpires();
+    }
+
 }

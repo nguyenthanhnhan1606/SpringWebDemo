@@ -55,8 +55,9 @@ public class PromotionController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("user", this.userService.getUsersByUsername(authentication.getName()));
         int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
-        long count = this.khuyenMaiSer.countPromotion();
+        long count = this.khuyenMaiSer.countPromotionExpires();
         model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        model.addAttribute("flagPro", 1);
         return "promotion";
     }
 

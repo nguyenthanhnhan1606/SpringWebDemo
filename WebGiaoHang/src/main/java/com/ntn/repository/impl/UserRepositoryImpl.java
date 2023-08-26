@@ -24,6 +24,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +40,10 @@ public class UserRepositoryImpl implements UserRepository {
     private Environment env;
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private BCryptPasswordEncoder passEncoder;
 
+    //Lấy danh sách các user và shipper đã xóa để chọn làm 
     @Override
     public List<User> getUsers(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
@@ -57,7 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         String search = params.get("search");
         if (search != null) {
-            predicates.add(b.like(shipperJoin.get("ten"), "%" + search + "%"));
+            predicates.add(b.like(uRoot.get("ten"), "%" + search + "%"));
         }
 
         q.where(predicates.toArray(Predicate[]::new));
@@ -77,6 +81,8 @@ public class UserRepositoryImpl implements UserRepository {
         return query.getResultList();
     }
 
+    //Lấy danh sách các user có đăng kí để thành  shipper
+    @Override
     public List<User> getUserRegistShipper(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = session.getCriteriaBuilder();
@@ -90,7 +96,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         String search = params.get("search");
         if (search != null) {
-            predicates.add(b.like(shipperJoin.get("ten"), "%" + search + "%"));
+            predicates.add(b.like(uRoot.get("ten"), "%" + search + "%"));
         }
 
         q.where(predicates.toArray(Predicate[]::new));
@@ -126,6 +132,7 @@ public class UserRepositoryImpl implements UserRepository {
         return session.get(User.class, id);
     }
 
+    //Xác nhận đăng kí shipper
     @Override
     public void updateRole(int id) {
         try {
@@ -142,6 +149,7 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    //Từ chối đăng ký shipper
     @Override
     public void refuseShipper(int id) {
         try {
@@ -155,5 +163,57 @@ public class UserRepositoryImpl implements UserRepository {
             Logger.getLogger(ShipperRepositoryImpl.class.getName()).log(Level.SEVERE, "Lỗi khi từ chối shipper: " + ex.getMessage(), ex);
             throw new RuntimeException("Đã xảy ra lỗi khi từ chối shipper. Vui lòng thử lại hoặc liên hệ hỗ trợ." + ex.getMessage());
         }
+    }
+
+    //đếm số user đã đăng kí chờ duyệt shipper
+    @Override
+    public Long countUser() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT Count(*) FROM Shipper WHERE trangthai='Chờ xác nhận'");
+
+        return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    //Đếm số user và
+    @Override
+    public Long countUserNew() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT COUNT(s) "
+                + "FROM Shipper s JOIN User u ON s.id=u.id "
+                + "WHERE s.trangthai = 'Đã xóa' "
+                + "AND u.id IS NULL ");
+
+        return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public boolean authUser(String username, String password) {
+        User u = this.getUsersByUsername(username);
+        return this.passEncoder.matches(password, u.getMatkhau());
+    }
+
+    @Override
+    public User addUser(User user) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(user);
+        return user;
+    }
+
+    @Override
+    public void update(User u) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(u);
+    }
+
+    @Override
+    public boolean checkUsername(String username) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM User WHERE taikhoan = :un");
+        q.setParameter("un", username);
+
+        List<User> userList = q.getResultList();
+
+        return userList.size() > 0;
+
     }
 }

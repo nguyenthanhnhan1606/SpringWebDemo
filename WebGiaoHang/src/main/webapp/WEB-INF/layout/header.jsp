@@ -8,7 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <nav class="sb-topnav navbar navbar-expand navbar-dark text-bg-primary bg-dark "   >
     <!-- Navbar Brand-->
-    <a class="navbar-brand ps-3" href="index.html"> QLGH- Admin</a>
+    <a class="navbar-brand ps-3" href="<c:url value="/admin"/>"> QLGH- Admin</a>
     <!-- Sidebar Toggle-->
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i></button>
@@ -30,16 +30,17 @@
     </div>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 me-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-               aria-expanded="false">Chào, <span class="text-info"> ${user.ten}  </span><img src="<c:url value="${user.avatar}"/>" width="40" class="rounded-circle" alt=".." /></a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                <li>
-                    <hr class="dropdown-divider"/>
-                </li>          
-            </ul>
+        <li class="nav-item">
+            <a class="nav-link" href="<c:url value="/admin/current-user"/>">
+                <div class="d-flex align-items-center">
+                    <span class="text-info me-2" style="white-space: nowrap">Chào, ${user.ten}</span>
+                    <img src="<c:url value="${user.avatar}"/>" width="40" class="rounded-circle" alt="Avatar" />
+                </div>
+            </a>
         </li>
     </ul>
+
+
+
+
 </nav>

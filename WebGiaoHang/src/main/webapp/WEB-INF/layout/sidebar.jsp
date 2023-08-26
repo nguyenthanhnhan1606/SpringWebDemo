@@ -38,8 +38,8 @@
                 <div class="collapse" id="collapseAccount" aria-labelledby="headingOne"
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="#">Đang chờ đấu giá</a>
-                        <a class="nav-link" href="#">Đang chờ nhận shipper</a>
+                        <a class="nav-link" href="<c:url value="/admin/donhang?trangthai=Mới tạo" />">Đang chờ đấu giá</a>
+                        <a class="nav-link" href="<c:url value="/admin/donhang?trangthai=Đang đấu giá" />">Đang chờ nhận shipper</a>
                     </nav>
                 </div>
 
@@ -59,8 +59,8 @@
 
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAccount4"
                    aria-expanded="false" aria-controls="collapseAccount">
-                    <div class="sb-nav-link-icon"><i class="fa-solid fa-user-nurse"></i></div>
-                    Tài khoản
+                    <div class="sb-nav-link-icon"><i class="fa-solid fas fa-chart-line"></i></div>
+                    Báo cáo thống kê    
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
                 <div class="collapse" id="collapseAccount4" aria-labelledby="headingOne"

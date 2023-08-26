@@ -11,8 +11,7 @@ import java.sql.Date;
  * @author THANH NHAN
  */
 public class UserDto {
-    private int id;
-    private String taikhoan;
+    private int id; private String taikhoan;
     private String matkhau;
     private String ten;
     private String cmnd;
@@ -21,6 +20,7 @@ public class UserDto {
     private Date ngaysinh;
     private String gioitinh;
     private String avatar;
+   
     private short active;
     private String userRole;
 

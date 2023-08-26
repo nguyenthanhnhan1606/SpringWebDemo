@@ -30,9 +30,16 @@ public class IndexController {
         model.addAttribute("user", this.userService.getUsersByUsername(authentication.getName()));
         return "index";
     }
+    
+    @RequestMapping("/admin/current-user")
+    public String currentUser(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("user", this.userService.getUsersByUsername(authentication.getName()));
+        return "current";
+    }
 
     @RequestMapping("/")
     public String indexTest(Model model) {
-        return "listUserRegisterShipper";
+        return "login";
     }
 }

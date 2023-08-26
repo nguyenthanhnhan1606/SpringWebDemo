@@ -50,4 +50,16 @@
     <a href="<c:url value="/admin/shippers" />" class="btn btn-secondary btn-success">Quay lại</a>
 </div>
 <script src="<c:url value="/js/api.js" />"></script>
-
+<c:if test= "${flagShipper == 1}">
+    <c:if test="${counter > 1}">
+        <ul class="pagination mt-1 justify-content-center">
+            <li class="page-item"><a class="page-link" href="<c:url value="/admin/listUserRegisterShipper" />">Tất cả</a></li>
+                <c:forEach begin="1" end="${counter}" var="i">
+                    <c:url value="/admin/listUserRegisterShipper" var="pageUrl">
+                        <c:param name="page" value="${i}"></c:param>
+                    </c:url>
+                <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
+                </c:forEach>
+        </ul>
+    </c:if>
+</c:if>

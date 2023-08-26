@@ -42,6 +42,7 @@ public class KhuyenMaiRepositoryImpl implements KhuyenMaiRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
 
+    //Lấy danh sách các khuyến mãi còn hạn
     @Override
     public List<Khuyenmai> getKhuyenMais(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
@@ -79,6 +80,7 @@ public class KhuyenMaiRepositoryImpl implements KhuyenMaiRepository {
         return query.getResultList();
     }
 
+    //Lấy danh sách các khuyến mãi hết hạn
     @Override
     public List<Khuyenmai> getKhuyenMaisExpires(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
@@ -170,14 +172,35 @@ public class KhuyenMaiRepositoryImpl implements KhuyenMaiRepository {
         session.delete(session.get(Khuyenmai.class, id));
     }
 
+    //Đếm số khuyến mãi còn hạn
     @Override
     public Long countPromotion() {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("SELECT Count(*) FROM Khuyenmai");
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Long> q = b.createQuery(Long.class);
+        Root<Khuyenmai> root = q.from(Khuyenmai.class);
 
-        return Long.parseLong(q.getSingleResult().toString());
+        Predicate conHanPredicate = b.greaterThanOrEqualTo(root.get("ngaykt"), new Date());
+        q.select(b.count(root)).where(conHanPredicate);
+
+        return session.createQuery(q).getSingleResult();
     }
 
+    //Đếm số khuyến mãi hết hạn
+    @Override
+    public Long countPromotionExpires() {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Long> q = b.createQuery(Long.class);
+        Root<Khuyenmai> root = q.from(Khuyenmai.class);
+
+        Predicate hetHanPredicate = b.lessThan(root.get("ngaykt"), new Date());
+        q.select(b.count(root)).where(hetHanPredicate);
+
+        return session.createQuery(q).getSingleResult();
+    }
+
+    //Thùng rác thực hiện xóa mềm
     @Override
     public void recycleBin(int id) {
         try {

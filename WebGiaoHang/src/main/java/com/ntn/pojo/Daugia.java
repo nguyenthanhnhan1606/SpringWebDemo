@@ -4,10 +4,12 @@
  */
 package com.ntn.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,6 +49,7 @@ public class Daugia implements Serializable {
     private Boolean ketqua;
     @JoinColumn(name = "id_donhang", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private Donhang idDonhang;
     @JoinColumn(name = "id_shipper", referencedColumnName = "id")
     @ManyToOne(optional = false)

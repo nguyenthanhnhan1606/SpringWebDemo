@@ -31,5 +31,7 @@ public interface KhuyenMaiRepository {
     boolean addOrUpdateKhuyenMai(Khuyenmai km);
 
     Long countPromotion();
+    
+    Long countPromotionExpires();
 
 }

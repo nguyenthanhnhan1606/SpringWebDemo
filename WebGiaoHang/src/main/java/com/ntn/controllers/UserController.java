@@ -10,6 +10,7 @@ import com.ntn.service.ShipperService;
 import com.ntn.service.UserService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class UserController {
-
+    @Autowired
+    private Environment env;
     @Autowired
     private UserService userSer;
     @Autowired
@@ -53,8 +55,11 @@ public class UserController {
 
     @GetMapping("/admin/listUserRegisterShipper")
     public String getUsersRegisterShipper(Model model, @RequestParam Map<String, String> params) {
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.userSer.countUser();
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
         model.addAttribute("userss", this.userSer.getUserRegistShipper(params));
-        model.addAttribute("flagShipper",1);    
+        model.addAttribute("flagShipper", 1);
         return "listUser";
     }
 

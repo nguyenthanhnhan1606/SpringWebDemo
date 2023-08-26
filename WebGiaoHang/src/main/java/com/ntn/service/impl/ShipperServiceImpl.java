@@ -88,11 +88,6 @@ public class ShipperServiceImpl implements ShipperService {
         return this.shipperRepo.createShipper(sp);
     }
     
-    @Override
-    public ShipperDto updateShipper(int id, ShipperDto sp1) {
-        Shipper sp = toEntity(sp1);
-        return toDto(this.shipperRepo.updateShipper(id, sp));
-    }
     
     @Override
     public void deleteShipper(int id) {

@@ -73,7 +73,7 @@
                     <button class="btn btn-info" type="submit">
                         <c:choose>
                             <c:when test="${user.id != null}">Cập nhật thông tin User</c:when>
-                            <c:otherwise>Thêm User</c:otherwise>
+                            <c:otherwise>Thêm shipper</c:otherwise>
                         </c:choose>
                     </button>
                     <a href="<c:url value="/admin/listUser" />" class="btn btn-secondary btn-success">Quay lại</a>

@@ -6,6 +6,7 @@ package com.ntn.service;
 
 import com.ntn.pojo.Donhang;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -13,7 +14,18 @@ import java.util.List;
  */
 public interface DonHangService {
 
-    List<Donhang> getAlls();
+    List<Donhang> getAlls(int id, Map<String, String> params);
+
+    List<Donhang> getOrderByStatus(Map<String, String> params);
+
+    Donhang getOrderById(int id);
+
+    List<Donhang> getDonHangsByShipperId(int id, Map<String, String> params);
+
+    List<Donhang> getDonHangSuccessByShipperId(int id, Map<String, String> params);
 
     boolean addOrUpdateDh(Donhang dh);
+
+    Long countOrder();
+
 }

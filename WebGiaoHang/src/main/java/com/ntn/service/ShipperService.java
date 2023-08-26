@@ -22,7 +22,6 @@ public interface ShipperService {
 
     public boolean addOrUpdateShipper(Shipper sp);
 
-    ShipperDto updateShipper(int id, ShipperDto sp1);
 
     Shipper createShipperNew(Shipper sp);
 

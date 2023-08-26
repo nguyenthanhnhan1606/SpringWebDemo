@@ -41,6 +41,7 @@ public class ShipperRepositoryImpl implements ShipperRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
 
+    //Lấy ds các shipper đã đăng ký 
     @Override
     public List<Shipper> getShippers(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
@@ -125,10 +126,11 @@ public class ShipperRepositoryImpl implements ShipperRepository {
         session.delete(sp);
     }
 
+    //Đếm số shipper 
     @Override
     public Long countShipper() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("SELECT Count(*) FROM Shipper");
+        Query q = s.createQuery("SELECT Count(*) FROM Shipper WHERE trangthai='Đã xác nhận'");
 
         return Long.parseLong(q.getSingleResult().toString());
     }

@@ -29,8 +29,8 @@ public class DonHangServiceImpl implements DonHangService {
     private DonHangRepository DonHangRepo;
     @Autowired
     private Cloudinary cloudinary;
-    
-    private DonHangDto toDto(Donhang dh){
+
+    private DonHangDto toDto(Donhang dh) {
         DonHangDto dh1 = new DonHangDto();
         dh1.setId(dh.getId());
         dh1.setNoigui(dh.getNoigui());
@@ -49,12 +49,12 @@ public class DonHangServiceImpl implements DonHangService {
 
     @Override
     public boolean addOrUpdateDh(Donhang dh) {
-        if ( dh.getFile()!=null  && !dh.getFile().isEmpty() ) {
+        if (dh.getFile() != null && !dh.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(dh.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
                 dh.setImage(res.get("secure_url").toString());
             } catch (IOException ex) {
-                Logger.getLogger(KhuyenMaiServiceImpl.class.getName()).log(Level.SEVERE, "Lỗi khi tải lên file: " + ex.getMessage(), ex);
+                Logger.getLogger(DonHangServiceImpl.class.getName()).log(Level.SEVERE, "Lỗi khi tải lên file: " + ex.getMessage(), ex);
                 throw new RuntimeException("Đã xảy ra lỗi khi tải lên file. Vui lòng thử lại hoặc liên hệ hỗ trợ.");
             }
         }
@@ -63,8 +63,33 @@ public class DonHangServiceImpl implements DonHangService {
     }
 
     @Override
-    public List<Donhang> getAlls() {
-        return this.DonHangRepo.getAlls();
+    public List<Donhang> getAlls(int id,Map<String, String> params) {
+        return this.DonHangRepo.getAlls(id,params);
+    }
+
+    @Override
+    public List<Donhang> getOrderByStatus(Map<String, String> params) {
+        return this.DonHangRepo.getOrderByStatus(params);
+    }
+
+    @Override
+    public Long countOrder() {
+        return this.DonHangRepo.countOrder();
+    }
+
+    @Override
+    public Donhang getOrderById(int id) {
+        return this.DonHangRepo.getOrderById(id);
+    }
+
+    @Override
+    public List<Donhang> getDonHangsByShipperId(int id,Map<String, String> params) {
+        return this.DonHangRepo.getDonHangsByShipperId(id,params);
+    }
+
+    @Override
+    public List<Donhang> getDonHangSuccessByShipperId(int id, Map<String, String> params) {
+        return this.DonHangRepo.getDonHangSuccessByShipperId(id, params);
     }
 
 }

@@ -56,7 +56,17 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/addShipper.jsp" />
     </definition>
+    <definition name="order" extends="baseLayout">
+        <put-attribute name="title" value="Đơn hàng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/order.jsp" />
+    </definition>
     
+     <definition name="current" extends="baseLayout">
+        <put-attribute name="title" value="Đơn hàng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/currentUser.jsp" />
+    </definition>
     <definition name="login" template="/WEB-INF/pages/login.jsp">
 
     </definition>

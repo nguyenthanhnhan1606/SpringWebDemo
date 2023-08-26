@@ -17,13 +17,25 @@ public interface UserRepository {
     List<User> getUsers(Map<String, String> params);
 
     List<User> getUserRegistShipper(Map<String, String> params);
+
+    boolean authUser(String username, String password);
     
+    boolean checkUsername(String username);
+
+    User addUser(User user);
+
     void updateRole(int id);
     
+    void update(User u);
+
     void refuseShipper(int id);
 
     User getUsersByUsername(String username);
 
     User getUsersById(int id);
+
+    Long countUser();
+
+    Long countUserNew();
 
 }

@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -102,8 +103,7 @@ public class Donhang implements Serializable {
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User idUser;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDonhang")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDonhang",fetch = FetchType.EAGER)
     private Set<Daugia> daugiaSet;
 
     @Transient

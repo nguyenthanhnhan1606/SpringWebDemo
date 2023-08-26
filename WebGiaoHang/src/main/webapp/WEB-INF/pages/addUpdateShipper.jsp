@@ -73,7 +73,6 @@
                     <button class="btn btn-info" type="submit">
                         <c:choose>
                             <c:when test="${shipper.user.id != null}">Cập nhật shipper
-
                             </c:when>
                             <c:otherwise>Thêm shipper</c:otherwise>
                         </c:choose>

@@ -32,4 +32,6 @@ public interface KhuyenMaiService {
 
     Long countPromotion();
 
+    Long countPromotionExpires();
+
 }
