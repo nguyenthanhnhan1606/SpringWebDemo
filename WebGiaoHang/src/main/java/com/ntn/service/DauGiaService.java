@@ -20,6 +20,9 @@ public interface DauGiaService {
 
     boolean updateKqDaugia(int id);
 
+    List<Object[]> tanSuat(Map<String, String> params);
+
     List<Shipper> getShipperByDauGia(int idShipper, int idDonhang);
 
+    List<Object[]> quyTheoNam(Map<String, String> params);
 }

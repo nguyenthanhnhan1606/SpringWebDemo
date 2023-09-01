@@ -25,12 +25,34 @@ public class OrderController {
     @Autowired
     private Environment env;
 
-    @GetMapping("/admin/donhang")
-    public String getOrder(Model model, @RequestParam Map<String, String> params) {
-        model.addAttribute("orders", this.donHangSer.getOrderByStatus(params));
+    @GetMapping("/admin/donhangmoi")
+    public String getOrderNew(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("orders", this.donHangSer.getOrderByStatusNew(params));
 
         int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.donHangSer.countOrderNew();
+        model.addAttribute("newFlag", 2);
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        return "order";
+    }
+
+    @GetMapping("/admin/donhangdg")
+    public String getOrderDg(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("orders", this.donHangSer.getOrderByStatusDG(params));
+
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+        long count = this.donHangSer.countOrderDG();
+        model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
+        return "order";
+    }
+
+    @GetMapping("/admin/donhang")
+    public String getAllOrder(Model model, @RequestParam Map<String, String> params) {
+        model.addAttribute("orders", this.donHangSer.getAllOrder(params));
+        int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
         long count = this.donHangSer.countOrder();
+        model.addAttribute("newFlag", 1);
+
         model.addAttribute("counter", Math.ceil(count * 1.0 / pageSize));
         return "order";
     }

@@ -15,9 +15,15 @@ import java.util.Map;
  */
 public interface DonHangRepository {
 
+    List<Donhang> getAllOrder(Map<String, String> params);
+
     List<Donhang> getAlls(int id, Map<String, String> params);
 
     List<Donhang> getOrderByStatus(Map<String, String> params);
+
+    List<Donhang> getOrderByStatusNew(Map<String, String> params);
+
+    List<Donhang> getOrderByStatusDG(Map<String, String> params);
 
     List<Donhang> getDonHangsByShipperId(int id, Map<String, String> params);
 
@@ -28,4 +34,8 @@ public interface DonHangRepository {
     boolean addOrUpdateDh(Donhang dh);
 
     Long countOrder();
+
+    Long countOrderNew();
+
+    Long countOrderDG();
 }

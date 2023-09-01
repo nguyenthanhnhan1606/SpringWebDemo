@@ -5,8 +5,13 @@
 package com.ntn.restcontroller;
 
 import com.ntn.pojo.Donhang;
+import com.ntn.pojo.Khuyenmai;
+import com.ntn.pojo.Shipper;
 import com.ntn.pojo.User;
+import com.ntn.service.DauGiaService;
 import com.ntn.service.DonHangService;
+import com.ntn.service.KhuyenMaiService;
+import com.ntn.service.ShipperService;
 import com.ntn.service.UserService;
 import java.io.IOException;
 import java.util.Date;
@@ -40,6 +45,12 @@ public class DonHangApiController {
     private DonHangService donHangSer;
     @Autowired
     private UserService userSer;
+    @Autowired
+    private KhuyenMaiService khuyenMaiSer;
+    @Autowired
+    private ShipperService shipperSer;
+    @Autowired
+    private DauGiaService dauGiaSer;
 
     @GetMapping("/donhang/daugia/{id}")
     @CrossOrigin
@@ -74,9 +85,11 @@ public class DonHangApiController {
             @RequestParam("ghichu") String ghichu,
             @RequestParam("trangthai") String trangthai,
             @RequestParam("giatridh") Double giatridh,
-            @RequestParam("idUser") int idUser) {
+            @RequestParam("idUser") int idUser,
+            @RequestParam("idKhuyenmai") int idKhuyenmai) {
         Donhang donhang = new Donhang(); // Handle error and return an error response
         User u = this.userSer.getUsersById(idUser);
+        Khuyenmai km = this.khuyenMaiSer.getKhuyenMaiById(idKhuyenmai);
         donhang.setFile(file);
         donhang.setNoigui(noigui);
         donhang.setNoinhan(noinhan);
@@ -86,6 +99,7 @@ public class DonHangApiController {
         donhang.setGiatridh(giatridh);
         donhang.setIdUser(u);
         donhang.setTrangthai(trangthai);
+        donhang.setIdKhuyenmai(km);
         boolean added = this.donHangSer.addOrUpdateDh(donhang);
         if (added) {
             return ResponseEntity.ok("Order added successfully");
@@ -101,6 +115,28 @@ public class DonHangApiController {
         Donhang dh = this.donHangSer.getOrderById(id);
         dh.setTrangthai(params.get("trangthai"));
         return this.donHangSer.addOrUpdateDh(dh);
+    }
+
+    @PostMapping("/danggiao")
+    @CrossOrigin
+    public String update(@RequestParam Map<String, String> params) {
+        try {
+            int idShipper = Integer.parseInt(params.get("shipperId"));
+            int idDonhang = Integer.parseInt(params.get("orderId"));
+            int idDaugia = Integer.parseInt(params.get("daugiaId"));
+
+            dauGiaSer.updateKqDaugia(idDaugia);
+            Shipper sp = shipperSer.getShipperById(idShipper);
+
+            Donhang dh = donHangSer.getOrderById(idDonhang);
+            dh.setTrangthai("Đang giao");
+            dh.setIdShipper(sp);
+            donHangSer.addOrUpdateDh(dh);
+            return "success";
+        } catch (Exception ex) {
+            return "fail";
+        }
+
     }
 
 }

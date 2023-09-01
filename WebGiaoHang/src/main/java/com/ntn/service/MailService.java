@@ -12,4 +12,5 @@ import java.util.Map;
  */
 public interface MailService {
     boolean sendMail(Map<String, String> emailRequest);
+     boolean sendMailConfirm(Map<String, String> emailRequest);
 }

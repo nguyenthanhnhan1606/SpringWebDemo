@@ -229,4 +229,144 @@ public class DonHangRepositoryImpl implements DonHangRepository {
 
     }
 
+    @Override
+    public List<Donhang> getAllOrder(Map<String, String> params) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Donhang> q = b.createQuery(Donhang.class);
+        Root<Donhang> dRoot = q.from(Donhang.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        String search = params.get("search");
+        if (search != null) {
+            Predicate p1 = b.like(dRoot.get("noigui"), "%" + search + "%");
+            Predicate p2 = b.like(dRoot.get("noinhan"), "%" + search + "%");
+
+            try {
+                int idValue = Integer.parseInt(search);
+                Predicate p3 = b.equal(dRoot.get("id"), idValue);
+                predicates.add(b.or(p1, p2, p3));
+            } catch (NumberFormatException e) {
+                predicates.add(b.or(p1, p2));
+            }
+
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
+        Query query = session.createQuery(q);
+
+        if (params != null) {
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
+                int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+
+                query.setMaxResults(pageSize);
+                query.setFirstResult((p - 1) * pageSize);
+            }
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public Long countOrderNew() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT Count(*) FROM Donhang WHERE trangthai='Mới tạo'");
+
+        return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public Long countOrderDG() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("SELECT Count(*) FROM Donhang WHERE trangthai='Đang đấu giá'");
+
+        return Long.parseLong(q.getSingleResult().toString());
+    }
+
+    @Override
+    public List<Donhang> getOrderByStatusNew(Map<String, String> params) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Donhang> q = b.createQuery(Donhang.class);
+        Root<Donhang> dRoot = q.from(Donhang.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(dRoot.get("trangthai"), "Mới tạo"));
+
+        String search = params.get("search");
+        if (search != null) {
+            Predicate p1 = b.like(dRoot.get("noigui"), "%" + search + "%");
+            Predicate p2 = b.like(dRoot.get("noinhan"), "%" + search + "%");
+
+            try {
+                int idValue = Integer.parseInt(search);
+                Predicate p3 = b.equal(dRoot.get("id"), idValue);
+                predicates.add(b.or(p1, p2, p3));
+            } catch (NumberFormatException e) {
+                predicates.add(b.or(p1, p2));
+            }
+
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
+        Query query = session.createQuery(q);
+
+        if (params != null) {
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
+                int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+
+                query.setMaxResults(pageSize);
+                query.setFirstResult((p - 1) * pageSize);
+            }
+        }
+
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Donhang> getOrderByStatusDG(Map<String, String> params) {
+        Session session = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Donhang> q = b.createQuery(Donhang.class);
+        Root<Donhang> dRoot = q.from(Donhang.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(dRoot.get("trangthai"), "Đang đấu giá"));
+
+        String search = params.get("search");
+        if (search != null) {
+            Predicate p1 = b.like(dRoot.get("noigui"), "%" + search + "%");
+            Predicate p2 = b.like(dRoot.get("noinhan"), "%" + search + "%");
+
+            try {
+                int idValue = Integer.parseInt(search);
+                Predicate p3 = b.equal(dRoot.get("id"), idValue);
+                predicates.add(b.or(p1, p2, p3));
+            } catch (NumberFormatException e) {
+                predicates.add(b.or(p1, p2));
+            }
+
+        }
+
+        q.where(predicates.toArray(Predicate[]::new));
+        Query query = session.createQuery(q);
+
+        if (params != null) {
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
+                int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
+
+                query.setMaxResults(pageSize);
+                query.setFirstResult((p - 1) * pageSize);
+            }
+        }
+
+        return query.getResultList();
+    }
+
 }

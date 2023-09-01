@@ -67,6 +67,19 @@
         <put-attribute name="content"
                        value="/WEB-INF/pages/currentUser.jsp" />
     </definition>
+    
+      <definition name="chartDoanhThu" extends="baseLayout">
+        <put-attribute name="title" value="Đơn hàng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/chartDoanhThu.jsp" />
+    </definition>
+    
+      <definition name="chartTanSuat" extends="baseLayout">
+        <put-attribute name="title" value="Đơn hàng" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/chartTanSuat.jsp" />
+    </definition>
+    
     <definition name="login" template="/WEB-INF/pages/login.jsp">
 
     </definition>

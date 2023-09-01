@@ -39,4 +39,13 @@ public class EmailApiController {
         }
         return "Failed to send email: ";
     }
+    
+    @PostMapping("/api/send-emailconfirm")
+    @CrossOrigin
+    public String sendEmailConfinm(@RequestParam Map<String, String> emailRequest) {
+        if (mailSer.sendMailConfirm(emailRequest)) {
+            return "Email sent successfully!";
+        }
+        return "Failed to send email: ";
+    }
 }

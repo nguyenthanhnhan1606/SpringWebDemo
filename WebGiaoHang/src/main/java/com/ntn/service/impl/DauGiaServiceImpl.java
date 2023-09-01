@@ -55,4 +55,14 @@ public class DauGiaServiceImpl implements DauGiaService {
         return this.dauGiaRepo.updateKqDaugia(id);
     }
 
+    @Override
+    public List<Object[]> tanSuat(Map<String, String> params) {
+        return this.dauGiaRepo.tanSuat(params);
+    }
+
+    @Override
+    public List<Object[]> quyTheoNam(Map<String, String> params) {
+        return this.dauGiaRepo.quyTheoNam(params);
+    }
+
 }

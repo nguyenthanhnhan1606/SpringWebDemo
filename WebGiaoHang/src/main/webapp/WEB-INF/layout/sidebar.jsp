@@ -38,8 +38,9 @@
                 <div class="collapse" id="collapseAccount" aria-labelledby="headingOne"
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="<c:url value="/admin/donhang?trangthai=Mới tạo" />">Đang chờ đấu giá</a>
-                        <a class="nav-link" href="<c:url value="/admin/donhang?trangthai=Đang đấu giá" />">Đang chờ nhận shipper</a>
+                        <a class="nav-link" href="<c:url value="/admin/donhang?page=1" />">Tất cả</a>
+                        <a class="nav-link" href="<c:url value="/admin/donhangmoi?page=1" />">Đang chờ đấu giá</a>
+                        <a class="nav-link" href="<c:url value="/admin/donhangdg?page=1" />">Đang chờ nhận shipper</a>
                     </nav>
                 </div>
 
@@ -66,8 +67,8 @@
                 <div class="collapse" id="collapseAccount4" aria-labelledby="headingOne"
                      data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="/admin/add_yta">Khách Hàng</a>
-                        <a class="nav-link" href="/admin/yta">Admin</a>
+                        <a class="nav-link" href="<c:url value="/admin/doanhthu" />">Doanh thu</a>
+                        <a class="nav-link" href="<c:url value="/admin/tansuat" />">Tần suất giao hàng</a>
                     </nav>
                 </div>
                 <c:choose>

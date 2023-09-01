@@ -16,7 +16,11 @@ public interface DonHangService {
 
     List<Donhang> getAlls(int id, Map<String, String> params);
 
+    List<Donhang> getAllOrder(Map<String, String> params);
+
     List<Donhang> getOrderByStatus(Map<String, String> params);
+    List<Donhang> getOrderByStatusNew(Map<String, String> params);
+    List<Donhang> getOrderByStatusDG(Map<String, String> params);
 
     Donhang getOrderById(int id);
 
@@ -27,5 +31,9 @@ public interface DonHangService {
     boolean addOrUpdateDh(Donhang dh);
 
     Long countOrder();
+
+    Long countOrderNew();
+
+    Long countOrderDG();
 
 }

@@ -63,8 +63,8 @@ public class DonHangServiceImpl implements DonHangService {
     }
 
     @Override
-    public List<Donhang> getAlls(int id,Map<String, String> params) {
-        return this.DonHangRepo.getAlls(id,params);
+    public List<Donhang> getAlls(int id, Map<String, String> params) {
+        return this.DonHangRepo.getAlls(id, params);
     }
 
     @Override
@@ -83,13 +83,38 @@ public class DonHangServiceImpl implements DonHangService {
     }
 
     @Override
-    public List<Donhang> getDonHangsByShipperId(int id,Map<String, String> params) {
-        return this.DonHangRepo.getDonHangsByShipperId(id,params);
+    public List<Donhang> getDonHangsByShipperId(int id, Map<String, String> params) {
+        return this.DonHangRepo.getDonHangsByShipperId(id, params);
     }
 
     @Override
     public List<Donhang> getDonHangSuccessByShipperId(int id, Map<String, String> params) {
         return this.DonHangRepo.getDonHangSuccessByShipperId(id, params);
+    }
+
+    @Override
+    public List<Donhang> getAllOrder(Map<String, String> params) {
+        return this.DonHangRepo.getAllOrder(params);
+    }
+
+    @Override
+    public Long countOrderNew() {
+        return this.DonHangRepo.countOrderNew();
+    }
+
+    @Override
+    public Long countOrderDG() {
+        return this.DonHangRepo.countOrderDG();
+    }
+
+    @Override
+    public List<Donhang> getOrderByStatusNew(Map<String, String> params) {
+        return this.DonHangRepo.getOrderByStatusNew(params);
+    }
+
+    @Override
+    public List<Donhang> getOrderByStatusDG(Map<String, String> params) {
+        return this.DonHangRepo.getOrderByStatusDG(params);
     }
 
 }

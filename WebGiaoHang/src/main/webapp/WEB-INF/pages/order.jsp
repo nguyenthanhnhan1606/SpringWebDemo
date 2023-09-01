@@ -19,6 +19,7 @@
             <th scope="col" class="text-center">Mô Tả</th>
             <th scope="col" class="text-center">Giá Trị ĐH</th>
             <th scope="col" class="text-center">Người gửi</th>
+            <th scope="col" class="text-center">Shipper nhận</th>
             <th scope="col" class="text-center">Trạng Thái</th>
         </tr>
     </thead>
@@ -34,21 +35,48 @@
                 <td class="text-center">
                     <fmt:formatNumber value="${o.giatridh}" type="number" pattern="#,##0.0" /><span> </span> VND
                 </td>
-
                 <td class="text-center">${o.idUser.ten}</td>
+                <td class="text-center">${o.idShipper.user.ten}</td>
                 <td class="text-center">${o.trangthai}</td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
 <c:if test="${counter > 1}">
-    <ul class="pagination mt-1 justify-content-center">
-        <li class="page-item"><a class="page-link" href="<c:url value="/admin/donhang" />">Tất cả</a></li>
-            <c:forEach begin="1" end="${counter}" var="i">
-                <c:url value="/admin/donhang" var="pageUrl">
-                    <c:param name="page" value="${i}"></c:param>
-                </c:url>
-            <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
-            </c:forEach>
-    </ul>
+    <c:choose>
+        <c:when test="${newFlag == 1}">
+            <ul class="pagination mt-1 justify-content-center">
+                <li class="page-item"><a class="page-link" href="<c:url value="/admin/donhang" />">Tất cả</a></li>
+                    <c:forEach begin="1" end="${counter}" var="i">
+                        <c:url value="/admin/donhang" var="pageUrl">
+                            <c:param name="page" value="${i}"></c:param>
+                        </c:url>
+                    <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
+                    </c:forEach>
+            </ul>
+        </c:when>
+        <c:when test="${newFlag == 2}">
+            <ul class="pagination mt-1 justify-content-center">
+                <li class="page-item"><a class="page-link" href="<c:url value="/admin/donhangmoi" />">Tất cả</a></li>
+                    <c:forEach begin="1" end="${counter}" var="i">
+                        <c:url value="/admin/donhangmoi" var="pageUrl">
+                            <c:param name="page" value="${i}"></c:param>
+                        </c:url>
+                    <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
+                    </c:forEach>
+            </ul>
+        </c:when>
+        <c:otherwise>
+            <ul class="pagination mt-1 justify-content-center">
+                <li class="page-item"><a class="page-link" href="<c:url value="/admin/donhangdg" />">Tất cả</a></li>
+                    <c:forEach begin="1" end="${counter}" var="i">
+                        <c:url value="/admin/donhangdg" var="pageUrl">
+                            <c:param name="page" value="${i}"></c:param>
+                        </c:url>
+                    <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
+                    </c:forEach>
+            </ul>
+        </c:otherwise>
+    </c:choose>
+
 </c:if>

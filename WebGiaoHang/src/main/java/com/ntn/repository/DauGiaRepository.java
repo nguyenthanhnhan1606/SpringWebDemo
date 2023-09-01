@@ -6,7 +6,9 @@ package com.ntn.repository;
 
 import com.ntn.pojo.Daugia;
 import com.ntn.pojo.Shipper;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,4 +18,6 @@ public interface DauGiaRepository {
     boolean addDauGia(Daugia dg);
     List<Shipper> getShipperByDauGia(int idShipper, int idDonhang);
     boolean updateKqDaugia(int id);
+    List<Object[]> tanSuat(Map <String, String> params);
+    List<Object[]> quyTheoNam(Map<String, String> params);
 }

@@ -122,7 +122,7 @@ public class UserRepositoryImpl implements UserRepository {
         Query q = s.createQuery("FROM User WHERE taikhoan=:un");
         q.setParameter("un", username);
 
-        return (User) q.getSingleResult();
+        return (User) (q.getResultList().isEmpty() ? null : q.getSingleResult());
 
     }
 
@@ -189,6 +189,9 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean authUser(String username, String password) {
         User u = this.getUsersByUsername(username);
+        if (u == null) {
+            return false;
+        }
         return this.passEncoder.matches(password, u.getMatkhau());
     }
 

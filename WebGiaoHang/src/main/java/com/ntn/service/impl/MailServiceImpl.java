@@ -11,6 +11,7 @@ import com.ntn.service.DonHangService;
 import com.ntn.service.MailService;
 import com.ntn.service.ShipperService;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -38,16 +39,15 @@ public class MailServiceImpl implements MailService {
         try {
             int idShipper = Integer.parseInt(emailRequest.get("shipperId"));
             int idDonhang = Integer.parseInt(emailRequest.get("orderId"));
-            int idDaugia = Integer.parseInt(emailRequest.get("daugiaId"));
 
-            dauGiaSer.updateKqDaugia(idDaugia);
+//            dauGiaSer.updateKqDaugia(idDaugia);
             Shipper sp = shipperSer.getShipperById(idShipper);
 
             List<Shipper> listSp = this.dauGiaSer.getShipperByDauGia(idShipper, idDonhang);
-            Donhang dh = donHangSer.getOrderById(idDonhang);
-            dh.setTrangthai("Đang giao");
-            dh.setIdShipper(sp);
-            donHangSer.addOrUpdateDh(dh);
+//            Donhang dh = donHangSer.getOrderById(idDonhang);
+//            dh.setTrangthai("Đang giao");
+//            dh.setIdShipper(sp);
+//            donHangSer.addOrUpdateDh(dh);
             SimpleMailMessage successMessage = new SimpleMailMessage();
             successMessage.setTo(sp.getUser().getEmail());
             successMessage.setSubject("Thông báo đấu giá");
@@ -69,4 +69,20 @@ public class MailServiceImpl implements MailService {
         }
     }
 
+    @Override
+    public boolean sendMailConfirm(Map<String, String> emailRequest) {
+        try {
+            int idDonhang = Integer.parseInt(emailRequest.get("orderId"));
+            Donhang dh = donHangSer.getOrderById(idDonhang);
+            SimpleMailMessage successMessage = new SimpleMailMessage();
+            successMessage.setTo(dh.getIdUser().getEmail());
+            successMessage.setSubject("Thông báo");
+            successMessage.setText("Đơn hàng #" + emailRequest.get("orderId") + " đã " +dh.getTrangthai().toUpperCase(Locale.ITALY));
+            javaMailSender.send(successMessage);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
 }

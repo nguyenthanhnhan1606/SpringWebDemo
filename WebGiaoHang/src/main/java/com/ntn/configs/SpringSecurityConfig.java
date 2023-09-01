@@ -6,6 +6,7 @@ package com.ntn.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -84,4 +85,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
     }
 
+      @Bean
+    SimpleDateFormat simpleDateFormat() {
+        return new SimpleDateFormat("yyyy-MM-dd");
+    }
 }
